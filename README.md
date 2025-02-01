@@ -3,7 +3,7 @@
 a tiny, lightweight markdown parser for static site generators.
 
 as this crate is in a very, very early stage and nowhere near ready for use i
-recommend you choose another markdown parsing solution from <crates.io>.
+recommend you choose another markdown parsing solution from <https://crates.io>.
 
 ## building
 
