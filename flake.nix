@@ -97,25 +97,11 @@
 
         apps.book = {
           type = "app";
-          program =
-            let
-              runScript = pkgs.writeShellScript "serve" ''
-                ${pkgs.live-server}/bin/live-server ${self.packages.${system}.book} --port 8080
-              '';
-            in
-            ''${
-              pkgs.stdenv.mkDerivation {
-                name = "book-server";
-                nativeBuildInputs = [ self.packages.${system}.book ];
-
-                phases = [ "installPhase" ];
-
-                installPhase = ''
-                  mkdir -p $out
-                  ln -s ${runScript} $out/run
-                '';
-              }
-            }/run'';
+          program = builtins.toString (
+            pkgs.writeShellScript "serve" ''
+              ${pkgs.live-server}/bin/live-server ${self.packages.${system}.book} --port 8080
+            ''
+          );
         };
 
         formatter = treefmtEval.config.build.wrapper;
