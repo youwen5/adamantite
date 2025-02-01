@@ -15,7 +15,7 @@ pub enum Node {
 #[derive(Debug)]
 pub enum ParentNodes {
     Paragraph,
-    Heading,
+    Heading { title: String },
 }
 
 #[derive(Debug)]
@@ -28,31 +28,49 @@ pub struct Ast {
     nodes: Vec<Node>,
 }
 
+struct Marker {
+    begin: &'static str,
+    end: &'static str,
+}
+
+struct SemanticObject {
+    marker: Marker,
+    variant: Node,
+}
+
+const HEADING = SemanticObject {
+    marker: Marker {
+        begin: r#"\n#"#,
+        end: r#"\n"#
+    },
+    variant: Node::Parent 
+}
+
 impl Ast {
     pub fn from_string(md_str: String) -> Ast {
         let mut ast: Ast = Ast { nodes: vec![] };
-        for l in md_str.lines() {
-            let mut chars = l.chars();
-            match chars.nth(0) {
-                Some('#') => {
-                    let header_content = Node::Literal {
-                        variant: LiteralNodes::Text,
-                        value: chars.collect(),
-                    };
-                    let node = Node::Parent {
-                        variant: ParentNodes::Heading,
-                        children: vec![header_content],
-                    };
-                    ast.nodes.push(node);
-                }
-                _ => {
-                    ast.nodes.push(Node::Literal {
-                        variant: LiteralNodes::Text,
-                        value: l.to_string(),
-                    });
-                }
-            }
-        }
+        for c in md_str.chars() {}
+        //for l in md_str.lines() {
+        //    let mut chars = l.chars();
+        //    match chars.nth(0) {
+        //        Some('#') => {
+        //            let header_title = chars.collect();
+        //            let node = Node::Parent {
+        //                variant: ParentNodes::Heading {
+        //                    title: header_title,
+        //                },
+        //                children: vec![header_title],
+        //            };
+        //            ast.nodes.push(node);
+        //        }
+        //        _ => {
+        //            ast.nodes.push(Node::Literal {
+        //                variant: LiteralNodes::Text,
+        //                value: l.to_string(),
+        //            });
+        //        }
+        //    }
+        //}
 
         ast
     }
