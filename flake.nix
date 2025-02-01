@@ -67,6 +67,30 @@
 
         packages.default = adamantite-crate;
 
+        packages.book = pkgs.callPackage (
+          {
+            stdenvNoCC,
+            mdbook,
+          }:
+          stdenvNoCC.mkDerivation {
+            pname = "adamantite-book";
+            version = if (self ? rev) then builtins.substring 0 6 self.rev else "unstable";
+
+            src = ./docs;
+
+            nativeBuildInputs = [ mdbook ];
+
+            buildPhase = ''
+              mdbook build
+            '';
+
+            installPhase = ''
+              mkdir -p $out
+              cp -r book $out
+            '';
+          }
+        ) { };
+
         apps.default = flake-utils.lib.mkApp {
           drv = adamantite-crate;
         };
