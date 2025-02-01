@@ -86,13 +86,22 @@
 
             installPhase = ''
               mkdir -p $out
-              cp -r book $out
+              cp -r book/* $out
             '';
           }
         ) { };
 
         apps.default = flake-utils.lib.mkApp {
           drv = adamantite-crate;
+        };
+
+        apps.book = {
+          type = "app";
+          program = builtins.toString (
+            pkgs.writeShellScript "serve" ''
+              ${pkgs.live-server}/bin/live-server ${self.packages.${system}.book} --port 8080
+            ''
+          );
         };
 
         formatter = treefmtEval.config.build.wrapper;
