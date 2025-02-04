@@ -10,7 +10,9 @@ parser that can generate an AST for all sorts of fun manipulations. Then,
 another crate (working name: `luminite`) can provide serialization from AST to
 HTML. Both of these projects are designed to compose in a static site
 generator, however, currently the concrete design of the site generator is not
-well-thought out (and may end up being implemented on top of `trunk`).
+well-thought out (and may end up being implemented on top of `trunk`). We need
+to come up with a cool name for the static site generator to increase clout,
+perhaps "apogee" or "mythril" etc.
 
 We initially want to parse some of the most basic Markdown constructs while
 staying mindful of future, more complex parsing requirements.
